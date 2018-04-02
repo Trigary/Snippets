@@ -34,7 +34,7 @@ public class ConfigurationSerializableAdapter implements JsonSerializer<Configur
 			return object;
 		} else if (object instanceof Number) {
 			Number value = (Number) object;
-			if (value.doubleValue() % 1 == 0 && value.doubleValue() <= Integer.MAX_VALUE) {
+			if (value.doubleValue() == vale.intValue()) {
 				return value.intValue();
 			}
 		}
