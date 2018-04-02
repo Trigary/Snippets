@@ -1,6 +1,4 @@
-public class ItemStackAdapter implements JsonSerializer<ItemStack>, JsonDeserializer<ItemStack> {
-	//register as hierarchy adapter -> works for ItemStack[] as well
-	
+public class ItemStackBase64Adapter implements JsonSerializer<ItemStack>, JsonDeserializer<ItemStack> {
 	@Override
 	public ItemStack deserialize(JsonElement json, Type type, JsonDeserializationContext context) throws JsonParseException {
 		try (ByteArrayInputStream stream = new ByteArrayInputStream(Base64Coder.decodeLines(json.getAsString()))) {
