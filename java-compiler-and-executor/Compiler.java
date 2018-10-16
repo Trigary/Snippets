@@ -17,7 +17,7 @@ public class JavaExecuteCompiler implements ExecuteCompiler {
 	public Result compile(String code) {
 		long time = System.currentTimeMillis();
 		if (!isBraceCountValid(code)) {
-			return new Result("More braces were closed than were opened.", time);
+			LOGGER.log(Level.WARN, "More braces were closed than were opened. This could be due to braces in comments, Strings, poorly formatted JavaDocs, etc. and does not always mean the program will fail to compile.");
 		}
 		
 		try (Writer writer = new FileWriter(sourceFile)) {
