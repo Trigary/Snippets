@@ -1,4 +1,10 @@
+import java.lang.reflect.Field;
+import java.util.HashMap;
+import java.util.Map;
+
 public class ItemBuilder {
+	private static final Map<Class, Field> PROFILE_FIELDS = new IdentityHashMap<>();
+	
 	private final ItemStack item;
 	private final ItemMeta meta;
 	
@@ -77,14 +83,26 @@ public class ItemBuilder {
 		GameProfile profile = new GameProfile(UUID.randomUUID(), null);
 		byte[] encodedData = Base64.getEncoder().encode(String.format("{textures:{SKIN:{url:\"%s\"}}}", "http://textures.minecraft.net/texture/" + url).getBytes());
 		profile.getProperties().put("textures", new Property("textures", new String(encodedData)));
-		Field profileField;
+
 		try {
-			profileField = meta.getClass().getDeclaredField("profile");
-			profileField.setAccessible(true);
-			profileField.set(meta, profile);
-		} catch (NoSuchFieldException | IllegalArgumentException | IllegalAccessException e) {
+			Field profileField = PROFILE_FIELDS.computeIfAbsent(meta.getClass(), metaClass -> {
+				try {
+					Field profileField = metaClass.getDeclaredField("profile");
+					profileField.setAccessible(true);
+					return profileField;
+				} catch (ReflectiveOperationException e) {
+					e.printStackTrace();
+					return null;
+				}
+			});
+
+			if (profileField != null) {
+				profileField.set(meta, profile);
+			}
+		} catch (ReflectiveOperationException e) {
 			e.printStackTrace();
 		}
+
 		return this;
 	}
 }
