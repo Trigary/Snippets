@@ -96,7 +96,9 @@ public class ItemBuilder {
 				}
 			});
 
-			if (profileField != null) profileField.set(meta, profile);
+			if (profileField != null) {
+				profileField.set(meta, profile);
+			}
 		} catch (ReflectiveOperationException e) {
 			e.printStackTrace();
 		}
