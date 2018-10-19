@@ -3,7 +3,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class ItemBuilder {
-	private static final Map<Class, Field> PROFILE_FIELDS = new HashMap<>();
+	private static final Map<Class, Field> PROFILE_FIELDS = new IdentityHashMap<>();
 
 	private final ItemStack item;
 	private final ItemMeta meta;
@@ -85,7 +85,7 @@ public class ItemBuilder {
 		profile.getProperties().put("textures", new Property("textures", new String(encodedData)));
 
 		try {
-			Optional<Field> optionalField = Optional.ofNullable(PROFILE_FIELDS.computeIfAbsent(meta.getClass(), metaClass -> {
+			Field profileField = PROFILE_FIELDS.computeIfAbsent(meta.getClass(), metaClass -> {
 				try {
 					Field profileField = metaClass.getDeclaredField("profile");
 					profileField.setAccessible(true);
@@ -94,9 +94,9 @@ public class ItemBuilder {
 					e.printStackTrace();
 					return null;
 				}
-			}));
+			});
 
-			if (optionalField.isPresent()) optionalField.get().set(meta, profile);
+			if (profileField != null) profileField.set(meta, profile);
 		} catch (ReflectiveOperationException e) {
 			e.printStackTrace();
 		}
