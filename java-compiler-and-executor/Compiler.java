@@ -62,6 +62,7 @@ public class JavaExecuteCompiler implements ExecuteCompiler {
 	
 	
 	private boolean isBraceCountValid(String code) {
+		//TODO can be bypassed with comments
 		int braces = 0;
 		for (int i = 0; i < code.length(); i++) {
 			char character = code.charAt(i);
