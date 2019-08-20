@@ -5,3 +5,5 @@ This isn't a library: the code snippets are written in all kinds of languages,
 the documentation is minimal and the code will probably not work if you just copy-paste it.
 Don't expect the code and the documents to be generalized either: it might be limited to a specific scenario
 in its current form, you are supposed to edit it to make it fit your needs.
+
+A major part of this repository has been migrated to [TriBukkit](https://github.com/TriBukkit/TriBukkit).
